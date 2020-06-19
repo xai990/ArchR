@@ -428,7 +428,7 @@ addIterativeLSI <- function(
   .logDiffTime("Finished Running IterativeLSI", tstart, addHeader = FALSE, verbose = verbose, logFile = logFile)
   ArchRProj@reducedDims[[name]] <- outLSI
 
-  return(ArchRProj)
+  return(list(ArchRProj, variableFeatures))
 
 }
 

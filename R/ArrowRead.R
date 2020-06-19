@@ -18,6 +18,7 @@ getFragmentsFromArrow <- function(
   ArrowFile = NULL, 
   chr = NULL, 
   cellNames = NULL, 
+  maxFragmentLength = Inf,
   verbose = TRUE,
   logFile = createLogFile("getFragmentsFromArrow")
   ){
@@ -48,7 +49,8 @@ getFragmentsFromArrow <- function(
       chr = chr[x], 
       out = "GRanges", 
       cellNames = cellNames, 
-      method = "fast"
+      method = "fast",
+      maxFragmentLength = maxFragmentLength
     )
   })
 
@@ -92,7 +94,8 @@ getFragmentsFromArrow <- function(
   chr = NULL, 
   out = "GRanges", 
   cellNames = NULL, 
-  method = "fast"
+  method = "fast",
+  maxFragmentLength = Inf
   ){
 
   if(is.null(chr)){
@@ -173,6 +176,9 @@ getFragmentsFromArrow <- function(
       output <- output[-1,]
     }
   }
+
+  # Filter by fragment width 
+  output <- output[width(output) <= maxFragmentLength]
 
   return(output)
 }

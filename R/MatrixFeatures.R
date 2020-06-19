@@ -115,6 +115,7 @@ addFeatureMatrix <- function(
 addPeakMatrix <- function(
   ArchRProj = NULL,
   ceiling = 4, 
+  maxFragmentLength=Inf,
   binarize = FALSE,
   verbose = TRUE,
   threads = getArchRThreads(),
@@ -182,6 +183,7 @@ addPeakMatrix <- function(
   allCells = NULL,
   matrixName = "PeakMatrix", 
   ceiling = 4, 
+  maxFragmentLength=Inf,
   binarize = FALSE,
   tstart = NULL,
   subThreads = 1,
@@ -273,7 +275,8 @@ addPeakMatrix <- function(
       .logDiffTime(sprintf("Adding %s to %s for Chr (%s of %s)!", sampleName, matrixName, z, length(uniqueChr)), tstart, verbose = verbose, logFile = logFile)
 
       #Read in Fragments
-      fragments <- .getFragsFromArrow(ArrowFile, chr = chr, out = "IRanges", cellNames = cellNames)
+      fragments <- .getFragsFromArrow(ArrowFile, chr = chr, 
+                      out = "IRanges", cellNames = cellNames, maxFragmentLength = maxFragmentLength)
       tabFrags <- table(mcols(fragments)$RG)
 
       #Count Left Insertion
