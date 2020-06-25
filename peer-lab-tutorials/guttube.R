@@ -78,15 +78,23 @@ plotPDF(p1, name = "Plot-Doublets.pdf",
 # Fitlering doublets
 proj <- filterDoublets(ArchRProj = proj)
 
+
 # SVD, Clustering, UMAP
+res <- addIterativeLSI(ArchRProj = proj, useMatrix = "TileMatrix", name = "IterativeLSI", scaleDims=FALSE, force=TRUE)
+proj <- res[[1]]
+var_features <- res[[2]]
+
+# GEne scores with selected features
+# Artificial black list to exclude all non variable features
+chrs <- getChromSizes(proj)
+blacklist <- setdiff(chrs, GRanges(var_features$seqnames, IRanges(var_features$start, var_features$start+500)))
+proj <- addGeneScoreMatrix(proj, matrixName='GeneScoreMatrix', force=TRUE, blacklist=blacklist)
+
+
+# Clustering, UMAP
 proj <- addIterativeLSI(ArchRProj = proj, useMatrix = "TileMatrix", name = "IterativeLSI", scaleDims=FALSE)
 proj <- addClusters(input = proj, reducedDims = "IterativeLSI")
 proj <- addUMAP(ArchRProj = proj, reducedDims = "IterativeLSI")
-# Phenography
-proj <- addCellColData(ArchRProj = proj, 
-    data = sprintf("C%d", read.csv('Guttube_merged/export/all_cells_phenograph.csv')[, 2]), name = 'Phenograph', 
-    cells = getCellNames(proj))
-
 # Save 
 proj <- saveArchRProject(ArchRProj = proj)
 
@@ -368,56 +376,5 @@ markerMat <- ArchR:::.getMatrixValues(
 imputedMat <- imputeMatrix(mat = as.matrix(markerMat), imputeWeights = imputeWeights)
 write.csv(t(imputedMat), 'Guttube_endoderm/export/markers_imputed_exprs.csv', quote=FALSE)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-p <- plotBrowserTrack(
-    ArchRProj = proj, 
-    groupBy = "Clusters", 
-    geneSymbol = c('Hoxc9'), 
-    upstream = 50000,
-    downstream = 50000
-)
-grid::grid.newpage()
-grid::grid.draw(p$Hoxc9)
-
-
-
-
-
-
-
-
-
-
-
-all_frags <- getFragmentsFromArrow('../data/ArchR/GFPPos_Rep1.arrow', 'chr18')
-nfr_frags <- getFragmentsFromArrow('../data/ArchR/GFPPos_Rep1.arrow', 'chr18', maxFragmentLength=147)
 
 
