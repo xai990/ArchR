@@ -28,7 +28,8 @@ addFeatureMatrix <- function(
   threads = getArchRThreads(),
   parallelParam = NULL,
   force = TRUE,
-  logFile = createLogFile("addFeatureMatrix")
+  logFile = createLogFile("addFeatureMatrix"),
+  maxFragmentLength = Inf
   ){
 
   .validInput(input = input, name = "input", valid = c("ArchRProj", "character"))

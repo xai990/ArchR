@@ -87,7 +87,7 @@ proj <- addGeneScoreMatrix(proj, matrixName='GeneScoreMatrix', force=TRUE, black
 proj <- addGroupCoverages(proj, maxFragmentLength=147)
 proj <- addReproduciblePeakSet(proj)
 # Counts
-proj <- addPeakMatrix(proj, maxFragmentLength=147)
+proj <- addPeakMatrix(proj, maxFragmentLength=147, ceiling=10^9)
 
 # Save 
 proj <- saveArchRProject(ArchRProj = proj)
@@ -126,13 +126,23 @@ write.csv(scores, sprintf('%s/export/all_cells_gene_scores.csv', proj_name), quo
 # Peak counts
 peaks <- getPeakSet(proj)
 peak.counts <- getMatrixFromProject(proj, 'PeakMatrix')
+# Reorder peaks 
+
+# Chromosome order
+chr_order <- sort(seqlevels(peaks))
+reordered_features <- list()
+for(chr in chr_order)
+    reordered_features[[chr]] = peaks[seqnames(peaks) == chr]
+reordered_features <- Reduce("c", reordered_features)    
+
+
 
 # Export counts
 counts <- assays(peak.counts)[['PeakMatrix']]
 writeMM(counts, sprintf('%s/export/peak_counts/counts.mtx', proj_name))
 write.csv(colnames(peak.counts), sprintf('%s/export/peak_counts/cells.csv', proj_name), quote=FALSE)
-names(peaks) <- sprintf("Peak%d", 1:length(peaks))
-write.csv(as.data.frame(peaks), sprintf('%s/export/peak_counts/peaks', proj_name), quote=FALSE)
+names(reordered_features) <- sprintf("Peak%d", 1:length(reordered_features))
+write.csv(as.data.frame(reordered_features), sprintf('%s/export/peak_counts/peaks.csv', proj_name), quote=FALSE)
 
 
 
