@@ -35,6 +35,7 @@ addGroupCoverages <- function(
   maxReplicates = 5,
   sampleRatio = 0.8,
   kmerLength = 6,
+  maxFragmentLength=Inf,
   threads = getArchRThreads(),
   returnGroups = FALSE,
   parallelParam = NULL,
@@ -192,6 +193,7 @@ addGroupCoverages <- function(
   args$cellGroups <- unlistGroups
   args$genome <- getGenome(ArchRProj)
   args$kmerLength <- kmerLength
+  args$maxFragmentLength <- maxFragmentLength
   args$ArrowFiles <- getArrowFiles(ArchRProj)
   args$availableChr <- .availableSeqnames(getArrowFiles(ArchRProj))
   args$chromLengths <- getChromLengths(ArchRProj)
@@ -265,6 +267,7 @@ addGroupCoverages <- function(
   cellGroups,
   kmerBias = NULL, 
   kmerLength = 6, 
+  maxFragmentLength=Inf,
   genome = NULL,
   ArrowFiles = NULL, 
   cellsInArrow = NULL, 
@@ -351,11 +354,13 @@ addGroupCoverages <- function(
       
         if(it == 1){
       
-          fragik <- .getFragsFromArrow(ArrowFiles[j], chr = availableChr[k], out = "GRanges", cellNames = cellGroupi)
+          fragik <- .getFragsFromArrow(ArrowFiles[j], chr = availableChr[k], 
+                      out = "GRanges", cellNames = cellGroupi, maxFragmentLength = maxFragmentLength)
       
         }else{
       
-          fragik <- c(fragik, .getFragsFromArrow(ArrowFiles[j], chr = availableChr[k], out = "GRanges", cellNames = cellGroupi))
+          fragik <- c(fragik, .getFragsFromArrow(ArrowFiles[j], chr = availableChr[k], 
+                                out = "GRanges", cellNames = cellGroupi, maxFragmentLength=maxFragmentLength))
       
         }
       
