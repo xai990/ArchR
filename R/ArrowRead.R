@@ -82,6 +82,7 @@ getFragmentsFromArrow <- function(
   .validInput(input = ArrowFile, name = "ArrowFile", valid = "character")
   .validInput(input = chr, name = "chr", valid = c("character","null"))
   .validInput(input = cellNames, name = "cellNames", valid = c("character","null"))
+  .validInput(input = maxFragmentLength, name = "maxFragmentLength", valid = c("integer", "infinite"))
   .validInput(input = verbose, name = "verbose", valid = c("boolean"))
 
   tstart <- Sys.time()

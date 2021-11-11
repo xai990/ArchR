@@ -42,6 +42,7 @@ addFeatureMatrix <- function(
   .validInput(input = parallelParam, name = "parallelParam", valid = c("parallelparam", "null"))
   .validInput(input = force, name = "force", valid = c("boolean"))
   .validInput(input = logFile, name = "logFile", valid = c("character"))
+  .validInput(input = maxFragmentLength, name = "maxFragmentLength", valid = c("integer", "infinite"))
 
   matrixName <- .isProtectedArray(matrixName)
 
@@ -127,6 +128,7 @@ addPeakMatrix <- function(
 
   .validInput(input = ArchRProj, name = "ArchRProj", valid = c("ArchRProj"))
   .validInput(input = ceiling, name = "ceiling", valid = c("numeric"))
+  .validInput(input = maxFragmentLength, name = "maxFragmentLength", valid = c("integer", "infinite"))
   .validInput(input = binarize, name = "binarize", valid = c("boolean"))
   .validInput(input = verbose, name = "verbose", valid = c("boolean"))
   .validInput(input = threads, name = "threads", valid = c("integer"))
