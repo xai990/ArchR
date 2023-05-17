@@ -14,6 +14,7 @@
 #' @param maxReplicates The maximum number of pseudo-bulk replicates to be generated.
 #' @param sampleRatio The fraction of the total cells that can be sampled to generate any given pseudo-bulk replicate.
 #' @param kmerLength The length of the k-mer used for estimating Tn5 bias.
+#' @param maxFragmentLength An integer or Inf that describes the max fragment length to retain when filtering
 #' @param threads The number of threads to be used for parallel computing.
 #' @param returnGroups A boolean value that indicates whether to return sample-guided cell-groupings without creating coverages.
 #' This is used mainly in `addReproduciblePeakSet()` when MACS2 is not being used to call peaks but rather peaks are called from a
