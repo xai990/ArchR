@@ -14,7 +14,8 @@ addFeatureMatrix(
   threads = getArchRThreads(),
   parallelParam = NULL,
   force = TRUE,
-  logFile = createLogFile("addFeatureMatrix")
+  logFile = createLogFile("addFeatureMatrix"),
+  maxFragmentLength = Inf
 )
 }
 \arguments{
@@ -38,6 +39,8 @@ downstream analyses when working with insertion counts.}
 \item{force}{A boolean value indicating whether to force the matrix indicated by \code{matrixName} to be overwritten if it already exists in the \code{input}.}
 
 \item{logFile}{The path to a file to be used for logging ArchR output.}
+
+\item{maxFragmentLength}{An integer or Inf that describes the max fragment length to retain}
 }
 \description{
 This function for each sample will independently compute counts for each feature per cell in the provided ArchRProject or set of ArrowFiles.

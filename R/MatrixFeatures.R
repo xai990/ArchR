@@ -17,6 +17,7 @@
 #' @param parallelParam A list of parameters to be passed for biocparallel/batchtools parallel computing.
 #' @param force A boolean value indicating whether to force the matrix indicated by `matrixName` to be overwritten if it already exists in the `input`.
 #' @param logFile The path to a file to be used for logging ArchR output.
+#' @param maxFragmentLength An integer or Inf that describes the max fragment length to retain
 #' @export
 addFeatureMatrix <- function(
   input = NULL,

@@ -7,6 +7,7 @@
 addPeakMatrix(
   ArchRProj = NULL,
   ceiling = 4,
+  maxFragmentLength = Inf,
   binarize = FALSE,
   verbose = TRUE,
   threads = getArchRThreads(),

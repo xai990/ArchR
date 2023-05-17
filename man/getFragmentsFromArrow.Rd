@@ -8,6 +8,7 @@ getFragmentsFromArrow(
   ArrowFile = NULL,
   chr = NULL,
   cellNames = NULL,
+  maxFragmentLength = Inf,
   verbose = TRUE,
   logFile = createLogFile("getFragmentsFromArrow")
 )
