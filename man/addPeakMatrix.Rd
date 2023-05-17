@@ -21,6 +21,8 @@ addPeakMatrix(
 
 \item{ceiling}{The maximum counts per feature allowed. This is used to prevent large biases in peak counts.}
 
+\item{maxFragmentLength}{An integer or Inf that describes the max fragment length to retain when filtering}
+
 \item{binarize}{A boolean value indicating whether the peak matrix should be binarized prior to storage. This can be useful
 for downstream analyses when working with insertion counts.}
 

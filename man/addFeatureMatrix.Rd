@@ -40,7 +40,7 @@ downstream analyses when working with insertion counts.}
 
 \item{logFile}{The path to a file to be used for logging ArchR output.}
 
-\item{maxFragmentLength}{An integer or Inf that describes the max fragment length to retain}
+\item{maxFragmentLength}{An integer or Inf that describes the max fragment length to retain when filtering}
 }
 \description{
 This function for each sample will independently compute counts for each feature per cell in the provided ArchRProject or set of ArrowFiles.

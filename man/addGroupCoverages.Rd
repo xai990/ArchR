@@ -46,7 +46,7 @@ of excessively large files which would negatively impact memory requirements.}
 
 \item{kmerLength}{The length of the k-mer used for estimating Tn5 bias.}
 
-\item{maxFragmentLength}{An integer or Inf that describes the max fragment length to retain}
+\item{maxFragmentLength}{An integer or Inf that describes the max fragment length to retain when filtering}
 
 \item{threads}{The number of threads to be used for parallel computing.}
 
