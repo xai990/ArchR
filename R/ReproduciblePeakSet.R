@@ -771,22 +771,52 @@ addReproduciblePeakSet <- function(
 	xlsFile <- paste0(bedName, "_peaks.xls")
 
 	#Create MACS2 Command
-	cmd <- sprintf("callpeak -g %s --name %s --treatment %s --outdir %s --format BED --call-summits --keep-dup all %s", 
-		genomeSize, basename(bedName), bedFile, dirname(bedName), additionalParams)
+	# cmd <- sprintf("callpeak -g %s --name %s --treatment %s --outdir %s --format BED --call-summits --keep-dup all %s", 
+	# 	genomeSize, basename(bedName), bedFile, dirname(bedName), additionalParams)
 
-	if(!is.null(shift) & !is.null(extsize)){
-		cmd <- sprintf("%s --shift %s --extsize %s", cmd , shift, extsize)
+	# if(!is.null(shift) & !is.null(extsize)){
+	# 	cmd <- sprintf("%s --shift %s --extsize %s", cmd , shift, extsize)
+	# }
+
+	# if(tolower(method) == "p"){
+	# 	cmd <- sprintf("%s -p %s", cmd , cutOff)
+	# }else{
+	# 	cmd <- sprintf("%s -q %s", cmd , cutOff)
+	# }
+
+	# .logMessage(paste0("Running Macs2 with Params : macs2 ", cmd), logFile = logFile)
+	# run <- system2(pathToMacs2, cmd, wait=TRUE, stdout=NULL, stderr=NULL)
+
+	# create the MACS2 args
+	args <- c(
+	"callpeak",
+	"-g", sprintf("%.0f", genomeSize),          
+	"--name",  basename(bedName),
+	"--treatment", bedFile,
+	"--outdir", dirname(bedName),
+	"--format", "BED",
+	"--call-summits",
+	"--keep-dup", "all",
+	strsplit(additionalParams, "\\s+")[[1]]
+	)
+
+	if (!is.null(shift) && !is.null(extsize))
+	args <- c(args, "--shift", shift, "--extsize", extsize)
+
+	if (tolower(method) == "p")
+	args <- c(args, "-p", cutOff)
+	else
+	args <- c(args, "-q", cutOff)
+
+	msg <- system2(pathToMacs2, args = args, stdout = TRUE, stderr = TRUE)
+	status <- attr(msg, "status") %||% 0L         # NULL → 0
+
+	if (status != 0 || !file.exists(summitsFile)) {
+	stop(
+		"MACS2 failed (exit=", status, "). Output:\n",
+		paste(msg, collapse = "\n")
+	)
 	}
-
-	if(tolower(method) == "p"){
-		cmd <- sprintf("%s -p %s", cmd , cutOff)
-	}else{
-		cmd <- sprintf("%s -q %s", cmd , cutOff)
-	}
-
-	.logMessage(paste0("Running Macs2 with Params : macs2 ", cmd), logFile = logFile)
-
-	run <- system2(pathToMacs2, cmd, wait=TRUE, stdout=NULL, stderr=NULL)
 
 	#Read Summits!
 	out <- data.table::fread(summitsFile, select = c(1,2,3,5))
