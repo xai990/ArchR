@@ -810,6 +810,7 @@ addReproduciblePeakSet <- function(
 
 	msg <- system2(pathToMacs2, args = args, stdout = TRUE, stderr = TRUE)
 	status <- attr(msg, "status") %||% 0L         # NULL → 0
+	cat(msg, sep = "\n")
 
 	if (status != 0 || !file.exists(summitsFile)) {
 	stop(
